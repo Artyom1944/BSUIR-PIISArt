@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Graphic Editor</title>
+    <style>
+        #drawing-area {
+            border: 1px solid black;
+            width: 800px;
+            height: 600px;
+        }
+        .toolbar {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <button id="circle-btn">Круг</button>
+        <button id="rect-btn">Квадрат</button>
+    </div>
+
+    <svg id="drawing-area"></svg>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const svg = document.getElementById('drawing-area'); 
+            let shape = 'circle'; 
+            let isDrawing = false; 
+            let startX, startY, currentShape; 
+
+            
+            document.getElementById('circle-btn').addEventListener('click', () => {
+                shape = 'circle'; 
+            });
+
+           
+            document.getElementById('rect-btn').addEventListener('click', () => {
+                shape = 'rect'; 
+            });
+
+           
+            svg.addEventListener('mousedown', (e) => {
+                isDrawing = true; 
+                startX = e.offsetX; 
+                startY = e.offsetY; 
+
+                if (shape === 'circle') {
+                    
+                    currentShape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    currentShape.setAttribute('cx', startX);
+                    currentShape.setAttribute('cy', startY);
+                    currentShape.setAttribute('r', 0);
+                    currentShape.setAttribute('fill', 'gray'); 
+                    currentShape.setAttribute('stroke', 'black'); 
+                } else if (shape === 'rect') {
+                    
+                    currentShape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    currentShape.setAttribute('x', startX);
+                    currentShape.setAttribute('y', startY);
+                    currentShape.setAttribute('width', 0);
+                    currentShape.setAttribute('height', 0);
+                    currentShape.setAttribute('fill', 'gray'); 
+                    currentShape.setAttribute('stroke', 'black'); 
+                }
+
+                svg.appendChild(currentShape); 
+            });
+
+            
+            svg.addEventListener('mousemove', (e) => {
+                if (!isDrawing) return; 
+
+                const currentX = e.offsetX; 
+                const currentY = e.offsetY; 
+
+                if (shape === 'circle') {
+                    
+                    const radius = Math.sqrt(Math.pow(currentX - startX, 2) + Math.pow(currentY - startY, 2));
+                    currentShape.setAttribute('r', radius); 
+                } else if (shape === 'rect') {
+                    
+                    const width = currentX - startX;
+                    const height = currentY - startY;
+                    currentShape.setAttribute('width', Math.abs(width)); 
+                    currentShape.setAttribute('height', Math.abs(height)); 
+                    if (width < 0) currentShape.setAttribute('x', currentX); 
+                    if (height < 0) currentShape.setAttribute('y', currentY); 
+                }
+            });
+
+            
+            svg.addEventListener('mouseup', () => {
+                isDrawing = false; 
+            });
+
+            
+            svg.addEventListener('mouseleave', () => {
+                isDrawing = false; 
+            });
+        });
+    </script>
+</body>
+</html>
