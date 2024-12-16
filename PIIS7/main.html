@@ -53,8 +53,8 @@
                     currentShape.setAttribute('cx', startX);
                     currentShape.setAttribute('cy', startY);
                     currentShape.setAttribute('r', 0);
-                    currentShape.setAttribute('fill', 'gray'); 
-                    currentShape.setAttribute('stroke', 'black'); 
+                    currentShape.setAttribute('fill', 'red'); 
+                    currentShape.setAttribute('stroke', 'yellow'); 
                 } else if (shape === 'rect') {
                     
                     currentShape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -62,8 +62,8 @@
                     currentShape.setAttribute('y', startY);
                     currentShape.setAttribute('width', 0);
                     currentShape.setAttribute('height', 0);
-                    currentShape.setAttribute('fill', 'gray'); 
-                    currentShape.setAttribute('stroke', 'black'); 
+                    currentShape.setAttribute('fill', 'red'); 
+                    currentShape.setAttribute('stroke', 'yellow'); 
                 }
 
                 svg.appendChild(currentShape); 
